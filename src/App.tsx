@@ -59,32 +59,11 @@ function App() {
     }, 1000);
   }, [cards]);
 
-  // // useEffect(() => {
-  // //   const flipped = cards.filter((c) => c.flipped);
-
-  //   console.log(flipped.length % 2);
-  //   if (flipped.length && flipped.length % 2 === 0) {
-  //     setDisabled(true);
-  //     setTimeout(() => {
-  //       // setCards(
-  //       //   cards.map((c) => {
-  //       //     if (found[c.name] < 2) {
-  //       //       c.flipped = false;
-  //       //     }
-  //       //     return c;
-  //       //   })
-  //       // );
-  //       setDisabled(false);
-  //       setFound({});
-  //     }, 2000);
-  //   }
-  // }, [cards]);
-
   const handleClick = (index: number) => {
     if (disabled) return;
     const newCards = [...cards].map((c, i) => {
       if (i === index) {
-        c.flipped = !c.flipped;
+        c.flipped = true;
       }
       return c;
     });
@@ -124,25 +103,26 @@ function App() {
     <div className="max-w-2xl mx-auto h-screen flex items-center justify-center">
       <div className="grid grid-cols-4 grid-rows-4 gap-2">
         {cards.map((card, i) => (
-          <div key={`card${i}`}>
+          <>
             <button
+              key={`card${i}`}
               className={classNames(
                 !card.flipped
                   ? "bg-blue-900 text-white flip-front"
-                  : "bg-gray-400 flip-back",
-                "rounded flip-content"
+                  : "bg-gray-400 flip-back shadow-lg cursor-default",
+                "rounded flip-content h-52"
               )}
               onClick={() => handleClick(i)}
             >
               {card.flipped ? (
-                <img src={card.image} className="object-cover w-40 h-52 p-4" />
+                <img src={card.image} className=" w-40 h-52 p-4" />
               ) : (
                 <div className="w-40 p-4 h-52 flex items-center justify-center">
                   FLIP
                 </div>
               )}
             </button>
-          </div>
+          </>
         ))}
       </div>
     </div>

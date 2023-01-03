@@ -1,32 +1,155 @@
 import { useEffect, useState } from "react";
-import avatar1 from "./assets/avataaars (1).svg";
-import avatar2 from "./assets/avataaars (2).svg";
-import avatar3 from "./assets/avataaars (3).svg";
-import avatar4 from "./assets/avataaars (4).svg";
-import avatar5 from "./assets/avataaars (5).svg";
-import avatar6 from "./assets/avataaars (6).svg";
-import avatar7 from "./assets/avataaars (7).svg";
-import avatar8 from "./assets/avataaars (8).svg";
 import "./App.css";
 
-const avatars = [
-  { image: avatar1, name: "avatar1" },
-  { image: avatar1, name: "avatar1" },
-  { image: avatar2, name: "avatar2" },
-  { image: avatar2, name: "avatar2" },
-  { image: avatar3, name: "avatar3" },
-  { image: avatar3, name: "avatar3" },
-  { image: avatar4, name: "avatar4" },
-  { image: avatar4, name: "avatar4" },
-  { image: avatar5, name: "avatar5" },
-  { image: avatar5, name: "avatar5" },
-  { image: avatar6, name: "avatar6" },
-  { image: avatar6, name: "avatar6" },
-  { image: avatar7, name: "avatar7" },
-  { image: avatar7, name: "avatar7" },
-  { image: avatar8, name: "avatar8" },
-  { image: avatar8, name: "avatar8" },
-];
+const NUM_CARDS = 16;
+
+const topType = shuffle([
+  "NoHair",
+  "EyePatch",
+  "Hat",
+  "Hibjab",
+  "Turban",
+  "WinterHat1",
+  "WinterHat2",
+  "LongHairBob",
+  "LongHairBun",
+  "LongHairCurly",
+  "LongHairCurvy",
+  "LongHairDreads",
+  "LongHairFrida",
+  "LongHairFro",
+  "LongHairFroBand",
+  "LongHairShavedSides",
+  "LongHairMiaWallace",
+  "LongHairStraightStrand",
+]);
+
+const accessoriesTypes = shuffle([
+  "Blank",
+  "Blank",
+  "Kurt",
+  "Prescription01",
+  "Prescription02",
+  "Round",
+  "Round",
+  "Sunglasses",
+  "Wayfarers",
+]);
+
+const hairColors = shuffle([
+  "Auburn",
+  "Black",
+  "Blonde",
+  "BlondeGolden",
+  "Brown",
+  "BrownDark",
+  "PastelPink",
+  "Blue",
+  "Platinum",
+  "Red",
+  "SilverGray",
+]);
+
+const facialHairType = shuffle([
+  "Blank",
+  "Blank",
+  "BeardMedium",
+  "BeardMedium",
+  "BeardLight",
+  "BeardMajestic",
+  "MoustacheFancy",
+  "MoustacheMagnum",
+]);
+
+const facialHairColor = shuffle([
+  "Auburn",
+  "Black",
+  "Blonde",
+  "BlondeGolden",
+  "Brown",
+  "BrownDark",
+  "Platinum",
+  "Red",
+]);
+
+const clotheType = shuffle([
+  "BlazerShirt",
+  "BlazerSweater",
+  "CollarSweater",
+  "GraphicShirt",
+  "Hoodie",
+  "Overall",
+  "ShirtCrewNeck",
+  "ShirtScoopNeck",
+]);
+
+const eyeType = shuffle([
+  "Default",
+  "Default",
+  "Default",
+  "Default",
+  "Default",
+  "Default",
+  "Close",
+  "Cry",
+]);
+
+const eyebrowType = shuffle([
+  "Default",
+  "Default",
+  "DefaultNatural",
+  "DefaultNatural",
+  "FlatNatural",
+  "Angry",
+  "AngryNatural",
+  "RaisedExcited",
+  "RaisedExcitedNatural",
+  "SadConcerned",
+  "SadConcernedNatural",
+  "UnibrowNatural",
+  "UpDown",
+  "UpDownNatural",
+]);
+
+const skinColor = shuffle([
+  "Tanned",
+  "Tanned",
+  "Yellow",
+  "Yellow",
+  "Pale",
+  "Pale",
+  "Light",
+  "Light",
+  "Brown",
+  "Brown",
+  "DarkBrown",
+  "DarkBrown",
+  "Black",
+  "Black",
+]);
+
+let images = [];
+for (let i = 0; i < NUM_CARDS / 2; i++) {
+  let params = [
+    `topType=${topType[i]}`,
+    `accessoriesType=${accessoriesTypes[i]}`,
+    `hairColor=${hairColors[i]}`,
+    `facialHairType=${facialHairType[i]}`,
+    `facialHairColor=${facialHairColor[i]}`,
+    `clotheType=${clotheType[i]}`,
+    `eyeType=${eyeType[i]}`,
+    `eyebrowType=${eyebrowType[i]}`,
+    `skinColor=${skinColor[i]}`,
+  ];
+  images.push(`https://avataaars.io/?avatarStyle=Circle&${params.join("&")}`);
+}
+
+let avatars: any[] = [];
+
+for (let i = 0; i < NUM_CARDS / 2; i++) {
+  avatars.push({ image: images[i], name: `avatar${i}` });
+  avatars.push({ image: images[i], name: `avatar${i}` });
+}
 
 function shuffle(array: any[]) {
   return array.sort(() => Math.random() - 0.5);
@@ -47,7 +170,7 @@ function App() {
 
   useEffect(() => {
     const foundCards = cards.filter((c) => c.found);
-    if (foundCards.length !== 16) return;
+    if (foundCards.length !== NUM_CARDS) return;
     alert("You did it!");
     setTimeout(() => {
       setFound({});
@@ -102,7 +225,7 @@ function App() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto h-screen flex items-center justify-center flex-col">
+    <div className="max-w-2xl mx-auto flex items-center justify-center flex-col">
       <div>
         <h1 className="text-center text-4xl text-amber-600">
           Avatar<span className="text-blue-500">Match</span>
@@ -143,6 +266,12 @@ function App() {
             </button>
           </>
         ))}
+      </div>
+      <div className="p-2">
+        Avatars provided by{" "}
+        <a href="https://getavataaars.com/" className="underline">
+          https://getavataaars.com/
+        </a>
       </div>
     </div>
   );
